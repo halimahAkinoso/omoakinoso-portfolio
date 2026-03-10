@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* If the error persists, use this specific v4 syntax */
+@theme {
+  --font-main: "Source Sans Pro", sans-serif;
+}
+
+@layer components {
+  .section-title-container {
+    /* v4 requires standard CSS or ensuring utilities are available */
+    margin-bottom: 6rem; /* This is the equivalent of mb-24 */
+    text-align: center;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #fff;
+  color: #333;
+}
