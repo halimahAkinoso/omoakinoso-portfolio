@@ -17,8 +17,9 @@ function App() {
         <About />
         <Projects />
         <Contacts />
+        <Footer />
       </main>
-      <Footer />
+      
       
       {/* Placing ChatBot here allows it to float over 
           all sections using the 'fixed' class we added. 

@@ -1,16 +1,16 @@
 import React from "react";
 import trackerImage from "../assets/tracker image.png";
+import shopping from "../assets/shopping.png";
 
 function Projects() {
   // 1. All project DATA goes here inside the array
   const projects = [
     {
-      title: "AI-Powered Analytics Suite",
+      title: "AI-Shopping Assistance",
       description:
-        "Built a full-stack dashboard that uses RAG (Retrieval-Augmented Generation) to let users chat with their private PDF data. Developed with React, FastAPI, and OpenAI.",
-      image:
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800", // Example AI image
-      link: "#",
+        "ShopperAI is a full-stack, AI-integrated e-commerce platform designed to bridge the gap between traditional online shopping and personalized assistance. It features a modern, responsive storefront where users can browse products, but its core innovation is a Retrieval-Augmented Generation (RAG) shopping assistant.",
+      image: shopping,
+      link: "https://ai-shopping-assistance-szna.onrender.com",
     },
     {
       title: "SpendWise Personal Expense Tracker",

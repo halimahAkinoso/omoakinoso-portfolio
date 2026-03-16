@@ -2,12 +2,13 @@ import React from 'react';
 import { Linkedin, Twitter, Youtube, Github, BookOpen } from 'lucide-react';
 
 function Hero() {
+  // 1. UPDATE THESE URLS WITH YOUR ACTUAL PROFILE LINKS
   const socialLinks = [
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Youtube, href: '#', label: 'YouTube' },
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: BookOpen, href: '#', label: 'Dev.to' },
+    { icon: Linkedin, href: 'https://linkedin.com/in/halimah-akinoso', label: 'LinkedIn' },
+    { icon: Twitter, href: 'https://twitter.com/HAkinoso', label: 'Twitter' },
+    { icon: Youtube, href: 'https://youtube.com/@halimahakinoso4597', label: 'YouTube' },
+    { icon: Github, href: 'https://github.com/halimahAkinoso', label: 'GitHub' },
+    { icon: BookOpen, href: 'https://dev.to/halimah_akinoso_7e9965b6b', label: 'Dev.to' },
   ];
 
   return (
@@ -16,14 +17,17 @@ function Hero() {
       className="min-h-screen flex items-center justify-center relative bg-[linear-gradient(to_right,rgba(245,245,245,0.8),rgba(245,245,245,0.8)),url('https://d33wubrfki0l68.cloudfront.net/da0520573b7858d199da3052194e4384b6587c64/62f6b/assets/svg/common-bg.svg')]"
     >
       {/* Social Links Side Bar */}
-      <div className="hidden lg:flex flex-col absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md py-4 px-2 rounded-r-md">
+      {/* Added z-50 to ensure it's not blocked by other layers */}
+      <div className="hidden lg:flex flex-col absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md py-4 px-2 rounded-r-md z-50">
         {socialLinks.map((social) => {
           const Icon = social.icon;
           return (
             <a
               key={social.label}
               href={social.href}
-              className="p-4 text-gray-800 hover:bg-[#7843e9]/10 hover:text-[#7843e9] transition-all duration-300"
+              target="_blank"             // Opens in a new tab
+              rel="noopener noreferrer"   // Security best practice
+              className="p-4 text-gray-800 hover:bg-[#7843e9]/10 hover:text-[#7843e9] transition-all duration-300 cursor-pointer"
               aria-label={social.label}
             >
               <Icon size={28} strokeWidth={1.5} />
@@ -34,7 +38,6 @@ function Hero() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full mt-20 pb-32">
         <div className="text-center space-y-12">
-          {/* Main Heading & Bio */}
           <div className="space-y-8">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 tracking-tight uppercase">
               Hey, I'm Halimah Ibrahim-Akinoso
@@ -44,12 +47,11 @@ function Hero() {
             </p>
           </div>
 
-          {/* CTA Button */}
           <div className="flex justify-center relative z-10">
             <a
               href="#projects"
               className="px-20 py-5 bg-[#7843e9] text-white font-bold rounded-md 
-                         hover:translate-y-[-3px] transition-all shadow-xl text-lg uppercase tracking-widest active:bg-[#6635d0] touch-manipulation"
+                         hover:translate-y-[-3px] transition-all shadow-xl text-lg uppercase tracking-widest active:bg-[#6635d0] touch-manipulation cursor-pointer"
             >
               Projects
             </a>
