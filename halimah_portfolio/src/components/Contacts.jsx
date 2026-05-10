@@ -4,7 +4,7 @@ const Contacts = () => {
   return (
     <section 
       id="contact" 
-      className="py-24 bg-[linear-gradient(to_right,rgba(245,245,245,0.8),rgba(245,245,245,0.8)),url('https://d33wubrfki0l68.cloudfront.net/da0520573b7858d199da3052194e4384b6587c64/62f6b/assets/svg/common-bg.svg')]"
+      className="py-24 scroll-mt-24 bg-[linear-gradient(to_right,rgba(245,245,245,0.8),rgba(245,245,245,0.8)),url('https://d33wubrfki0l68.cloudfront.net/da0520573b7858d199da3052194e4384b6587c64/62f6b/assets/svg/common-bg.svg')]"
       style={{ backgroundPosition: 'center' }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">

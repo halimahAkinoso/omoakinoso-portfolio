@@ -12,7 +12,7 @@ const About = () => {
 //   { name: 'AWS', icon: 'https://cdn.simpleicons.org/amazonaws/white' },
   { name: 'Docker', icon: 'https://cdn.simpleicons.org/docker/white' },
   { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript/white' },
-  { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/white' },
+  // { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/white' },
   { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/white' },
   { name: 'Git', icon: 'https://cdn.simpleicons.org/git/white' },
 ];

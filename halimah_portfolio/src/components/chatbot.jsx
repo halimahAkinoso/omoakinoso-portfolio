@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { MessageSquare, X, Send, Bot, Sparkles, LoaderCircle } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { LoaderCircle, MessageSquare, Send, Sparkles, X } from "lucide-react";
+
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000"
+).replace(/\/$/, "");
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,70 +15,74 @@ const ChatBot = () => {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    const trimmedInput = input.trim();
+    if (!trimmedInput || loading) {
+      return;
+    }
+
     setLoading(true);
-    const newMessages = [...messages, { role: "user", content: input }];
-    setMessages(newMessages);
+    setMessages((prev) => [...prev, { role: "user", content: trimmedInput }]);
     setInput("");
 
-    const payload = {
-      message: input,
-    };
     try {
-      const res = await fetch("http://127.0.0.1:8000/chat", {
+      const res = await fetch(`${API_BASE_URL}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ message: trimmedInput }),
       });
-      const data = await res.json();
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.detail || "The chat request failed.");
+      }
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: data.response,
+          content:
+            data.response || "I couldn't generate a reply just now. Please try again.",
         },
       ]);
     } catch (error) {
-      console.log(error);
+      const fallbackMessage =
+        error instanceof Error
+          ? error.message
+          : "I couldn't reach the portfolio assistant right now. Please try again.";
+
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: error,
+          content: fallbackMessage,
         },
       ]);
-    } finally{
-        setLoading(false)
+    } finally {
+      setLoading(false);
     }
-
-    // Simulated AI Logic
-    // setTimeout(() => {
-    //   setMessages(prev => [...prev, {
-    //     role: 'assistant',
-    //     content: "I've analyzed your query. Halimah specializes in RAG and Full Stack AI development. Want to see her AWS projects?"
-    //   }]);
-    // }, 800);
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end">
-      {/* Modal Sheet / Chat Window */}
       <div
         className={`
-        mb-4 w-[350px] sm:w-[400px] h-[500px] bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] 
-        flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right
-        ${isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-0 opacity-0 translate-y-10 pointer-events-none"}
+        mb-4 h-[500px] w-[350px] origin-bottom-right overflow-hidden rounded-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.2)]
+        transition-all duration-300 sm:w-[400px]
+        ${isOpen ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-10 scale-0 opacity-0"}
       `}
       >
-        {/* Header */}
-        <div className="bg-[#7843e9] p-5 text-white flex justify-between items-center shadow-lg">
+        <div className="flex items-center justify-between bg-[#7843e9] p-5 text-white shadow-lg">
           <div className="flex items-center gap-3">
-            <div className="bg-white/20 p-2 rounded-lg">
+            <div className="rounded-lg bg-white/20 p-2">
               <Sparkles size={18} className="text-white" />
             </div>
             <div>
@@ -86,60 +94,74 @@ const ChatBot = () => {
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="hover:rotate-90 transition-transform p-1"
+            className="p-1 transition-transform hover:rotate-90"
+            aria-label="Close chat"
           >
             <X size={24} />
           </button>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#f8f9fa]">
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-            >
+        <div className="flex h-[calc(100%-145px)] flex-col overflow-y-auto bg-[#f8f9fa] p-6">
+          <div className="space-y-4">
+            {messages.map((msg, i) => (
               <div
-                className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-[#7843e9] text-white rounded-br-none shadow-md"
-                    : "bg-white text-gray-800 shadow-sm rounded-bl-none border border-gray-100"
-                }`}
+                key={`${msg.role}-${i}`}
+                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
-                {msg.content}
+                <div
+                  className={`max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed ${
+                    msg.role === "user"
+                      ? "rounded-br-none bg-[#7843e9] text-white shadow-md"
+                      : "rounded-bl-none border border-gray-100 bg-white text-gray-800 shadow-sm"
+                  }`}
+                >
+                  {msg.content}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+            {loading ? (
+              <div className="flex justify-start">
+                <div className="rounded-2xl rounded-bl-none border border-gray-100 bg-white p-4 text-sm text-gray-800 shadow-sm">
+                  Halimah&apos;s assistant is thinking...
+                </div>
+              </div>
+            ) : null}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
-        {/* Input Area */}
-        <div className="p-4 bg-white border-t border-gray-100 flex gap-2">
+        <div className="flex gap-2 border-t border-gray-100 bg-white p-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder="Ask me anything..."
-            className="flex-1 bg-gray-100 px-4 py-3 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#7843e9]/20 transition-all"
+            className="flex-1 rounded-xl bg-gray-100 px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-[#7843e9]/20"
+            disabled={loading}
           />
           <button
             onClick={handleSend}
-            className="bg-[#7843e9] text-white p-3 rounded-xl hover:bg-[#6635d0] transition-colors shadow-md"
+            className="rounded-xl bg-[#7843e9] p-3 text-white shadow-md transition-colors hover:bg-[#6635d0] disabled:cursor-not-allowed disabled:opacity-70"
+            disabled={loading}
+            aria-label="Send message"
           >
-            {
-                loading ? <LoaderCircle className="animate-spin text-white" size={18} /> : <Send size={18} />
-            }
+            {loading ? (
+              <LoaderCircle className="animate-spin text-white" size={18} />
+            ) : (
+              <Send size={18} />
+            )}
           </button>
         </div>
       </div>
 
-      {/* Floating Action Button (FAB) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          w-16 h-16 rounded-full flex items-center justify-center text-white shadow-[0_10px_30px_rgba(120,67,233,0.4)]
+          flex h-16 w-16 items-center justify-center rounded-full text-white shadow-[0_10px_30px_rgba(120,67,233,0.4)]
           transition-all duration-300 hover:scale-110 active:scale-95
-          ${isOpen ? "bg-gray-800 rotate-0" : "bg-[#7843e9]"}
+          ${isOpen ? "rotate-0 bg-gray-800" : "bg-[#7843e9]"}
         `}
+        aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         {isOpen ? <X size={28} /> : <MessageSquare size={28} />}
       </button>
