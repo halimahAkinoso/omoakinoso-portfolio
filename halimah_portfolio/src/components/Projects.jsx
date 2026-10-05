@@ -20,12 +20,11 @@ function Projects() {
       link: "https://spendwise-personal-expense-tracker.onrender.com",
     },
     {
-      title: "Dopefolio Open Source",
+      title: "Lagos Traffic Congestion Predictor",
       description:
-        "A successful Open-Source project featured on CSS-Tricks and used by thousands of developers globally to showcase high-performance applications.",
-      image:
-        "https://d33wubrfki0l68.cloudfront.net/19c708670a3b839351c996153ad57303061f06bb/9083e/assets/jpeg/dopefolio.jpeg",
-      link: "#",
+        "Lagos Traffic Congestion Predictor is a full-stack AI/ML application that predicts traffic congestion levels in Lagos using traffic conditions, location, time, speed, vehicle density, and road incidents. The system uses a machine-learning model with a FastAPI backend and React frontend to provide congestion predictions, confidence scores, and map-based traffic visualization to help commuters make smarter travel decisions.",
+      image:traffic prediction,
+      link: "https://traffic-congestion-predictor-app.netlify.app/",
     },
   ];
 
