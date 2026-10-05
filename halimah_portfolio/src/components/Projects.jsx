@@ -20,6 +20,13 @@ function Projects() {
       link: "https://spendwise-personal-expense-tracker.onrender.com",
     },
     {
+      title: "MicroSave Community Savings & Lending Platform",
+      description:
+        "MicroSave is a full-stack community savings and lending platform designed to simplify group-based financial management. It features a modern, responsive dashboard where members can manage savings, join communities, request and track micro-loans, monitor repayments, and access protected financial information, with an AI-powered RAG assistant providing personalized guidance based on relevant financial and group data.",
+      image: trackerImage,
+      link: "https://microsave-app.netlify.app",
+    },
+    {
       title: "Lagos Traffic Congestion Predictor",
       description:
         "Lagos Traffic Congestion Predictor is a full-stack AI/ML application that predicts traffic congestion levels in Lagos using traffic conditions, location, time, speed, vehicle density, and road incidents. The system uses a machine-learning model with a FastAPI backend and React frontend to provide congestion predictions, confidence scores, and map-based traffic visualization to help commuters make smarter travel decisions.",
